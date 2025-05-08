@@ -33,12 +33,16 @@
 
     async function fetchWallets() {
       try {
-        const response = await fetch("https://your-domain.com/wallets.json"); // 🔁 Replace this with your real URL
+        // Make sure you use the correct path for your wallets.json
+        const response = await fetch("wallets.json"); // Load from the same directory
         const data = await response.json();
 
+        // Lowercase all addresses for comparison and avoid case-sensitivity issues
         ogList = data.og.map(addr => addr.toLowerCase());
         wlList = data.whitelist.map(addr => addr.toLowerCase());
 
+        console.log("OG List:", ogList);  // Log OG addresses
+        console.log("Whitelist List:", wlList);  // Log WL addresses
         console.log("Wallets loaded.");
       } catch (err) {
         const result = document.getElementById("result");
@@ -48,29 +52,19 @@
       }
     }
 
-    fetchWallets(); // Load the list when the page loads
+    fetchWallets(); // Call the function to load wallet data on page load
 
     function checkAccess() {
       const input = document.getElementById("walletInput").value.trim().toLowerCase(); 
       const result = document.getElementById("result");
 
+      // Validate input wallet address format
       if (!/^0x[a-fA-F0-9]{40}$/.test(input)) {
         result.textContent = "❌ Invalid wallet address format.";
         result.style.color = "red";
         return;
       }
 
+      // Check if the address is in the OG list
       if (ogList.includes(input)) {
-        result.textContent = "🦍 You are in the OG list! Early mint access granted.";
-        result.style.color = "green";
-      } else if (wlList.includes(input)) {
-        result.textContent = "🎟️ You are in the Whitelist! Public mint access granted.";
-        result.style.color = "orange";
-      } else {
-        result.textContent = "❌ This wallet is not whitelisted.";
-        result.style.color = "red";
-      }
-    }
-  </script>
-</body>
-</html>
+        result.t

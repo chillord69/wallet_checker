@@ -1,0 +1,11 @@
+{
+  "og": [
+    "0x2ed6b43ea876ede328d47f910420d99d5fe27a1a",
+    "0x93752963b9a9aec26ea346b45917023decb32dbe"
+  ],
+  "whitelist": [
+    "0xwallet1",
+    "0xwallet2",
+    "0xwallet3"
+  ]
+}

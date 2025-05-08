@@ -33,17 +33,21 @@
 
     async function fetchWallets() {
       try {
-        // Make sure you use the correct path for your wallets.json
-        const response = await fetch("wallets.json"); // Load from the same directory
+        console.log("Fetching wallets...");
+        const response = await fetch("wallets.json"); // Make sure the path is correct
         const data = await response.json();
 
-        // Lowercase all addresses for comparison and avoid case-sensitivity issues
+        // Log the fetched data
+        console.log("Fetched wallet data:", data);
+
+        // Lowercase all addresses for comparison
         ogList = data.og.map(addr => addr.toLowerCase());
         wlList = data.whitelist.map(addr => addr.toLowerCase());
 
-        console.log("OG List:", ogList);  // Log OG addresses
-        console.log("Whitelist List:", wlList);  // Log WL addresses
-        console.log("Wallets loaded.");
+        // Log the lists after processing
+        console.log("OG List:", ogList);  
+        console.log("Whitelist List:", wlList);
+
       } catch (err) {
         const result = document.getElementById("result");
         result.textContent = "⚠️ Failed to load wallet data.";
@@ -52,11 +56,13 @@
       }
     }
 
-    fetchWallets(); // Call the function to load wallet data on page load
+    fetchWallets(); // Load wallets on page load
 
     function checkAccess() {
       const input = document.getElementById("walletInput").value.trim().toLowerCase(); 
       const result = document.getElementById("result");
+
+      console.log("Checking wallet:", input);  // Log the input wallet address
 
       // Validate input wallet address format
       if (!/^0x[a-fA-F0-9]{40}$/.test(input)) {
@@ -67,4 +73,20 @@
 
       // Check if the address is in the OG list
       if (ogList.includes(input)) {
-        result.t
+        result.textContent = "🦍 You are in the OG list! Early mint access granted.";
+        result.style.color = "green";
+      } 
+      // Check if the address is in the whitelist
+      else if (wlList.includes(input)) {
+        result.textContent = "🎟️ You are in the Whitelist! Public mint access granted.";
+        result.style.color = "orange";
+      } 
+      // Address not found
+      else {
+        result.textContent = "❌ This wallet is not whitelisted.";
+        result.style.color = "red";
+      }
+    }
+  </script>
+</body>
+</html>
